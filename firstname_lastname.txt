@@ -163,19 +163,24 @@ Opening the project:
      JDK 24 as the project SDK. If prompted, point the "24" SDK entry to a
      local JDK 24 installation.
 
-Building from the command line (as used to verify this submission):
-  javac -d out -encoding UTF-8 --release 24 <all files under src/**/*.java>
+Building validation.jar:
+  1. Open the Build menu and choose "Build Artifacts...".
+  2. Select the "validation" artifact (already configured under
+     .idea/artifacts/validation_jar.xml) and choose "Build".
+  3. IntelliJ produces out/artifacts/validation/validation.jar.
 
-Packaging validation.jar:
-  jar --create --file out/artifacts/validation/validation.jar -C out il
+Running / verifying the library:
+  1. Create a new Java class anywhere under the "src" source root with a
+     main method, such as the sample program from the assignment
+     specification ("Code Sample for Testing the Project"), which builds a
+     User, combines emailLengthBiggerThan10() and emailEndsWithIL() with
+     and(), and prints whether the user is valid.
+  2. Right-click the class in the Project view and choose "Run" to execute
+     it directly from the IDE.
 
-Running the sample program from the assignment specification:
-  javac -d test/out -cp out test/UserValidationV2Demo.java
-  java -cp "out;test/out" UserValidationV2Demo
-
-Note: the test/ folder holds personal verification code only. It is
-excluded from version control (.gitignore) and is not part of the graded
-production project.
+Note: no test/ folder is included in this repository. It was used only for
+local, personal verification while building the project and was
+intentionally never committed.
 
 ================================================================================
 COLLABORATIVE TOOLS SUMMARY & DEVELOPMENT PROCESS
