@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="ArtifactManager">
+  <artifact type="jar" name="validation">
+    <output-path>$PROJECT_DIR$/out/artifacts/validation</output-path>
+    <root id="archive" name="validation.jar">
+      <element id="module-output" name="HIT-design-patterns-project" />
+    </root>
+  </artifact>
+</component>

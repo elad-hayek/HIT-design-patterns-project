@@ -1,0 +1,952 @@
+================================================================================
+PLACEHOLDERS TO REPLACE
+================================================================================
+
+This document contains searchable placeholders in the exact format
+<<<REPLACE_ME: DESCRIPTION>>>. Search for the text "REPLACE_ME" and fill in
+every occurrence with real information before submission. The complete list
+follows:
+
+  <<<REPLACE_ME: COURSE_NAME>>>
+      Full name of the Design Patterns course, as it appears on Moodle.
+
+  <<<REPLACE_ME: SEMESTER_AND_YEAR>>>
+      Semester and year of the course (e.g. Semester B, 2026).
+
+  <<<REPLACE_ME: SUBMISSION_DATE>>>
+      Date this project is submitted on Moodle.
+
+  <<<REPLACE_ME: TEAM_MANAGER_FULL_NAME>>>
+      First and last name of the Development Team Manager.
+
+  <<<REPLACE_ME: TEAM_MANAGER_FIRSTNAME_LASTNAME>>>
+      Team manager's first and last name in English, lowercase, separated by
+      an underscore (e.g. moshe_israeli). Used for the required
+      firstname_lastname.zip / firstname_lastname.pdf submission file names.
+
+  <<<REPLACE_ME: TEAM_MEMBER_N_FULL_NAME>>>
+      Full name of team member N (one placeholder per member).
+
+  <<<REPLACE_ME: TEAM_MEMBER_N_ID>>>
+      ID number of team member N.
+
+  <<<REPLACE_ME: TEAM_MEMBER_N_MOBILE>>>
+      Mobile phone number of team member N.
+
+  <<<REPLACE_ME: TEAM_MEMBER_N_EMAIL>>>
+      Email address of team member N.
+
+  <<<REPLACE_ME: YOUTUBE_VIDEO_LINK>>>
+      Active, clickable link to the Unlisted YouTube demonstration video
+      (must include a voiced explanation of how the Combinator design
+      pattern was implemented).
+
+  <<<REPLACE_ME: COLLABORATION_TOOLS_SUMMARY>>>
+      Up to 100 words describing the team's use of at least 2 collaboration
+      tools presented in class (e.g. Git/GitHub, Slack, Trello, Discord).
+
+Note: the private GitHub repository URL below has already been filled in
+with the real address created for this submission (see the "SOURCE CODE
+REPOSITORY" section) - it does not need to be replaced.
+
+================================================================================
+PROJECT DOCUMENTATION COVER PAGE
+================================================================================
+
+DESIGN PATTERNS FINAL PROJECT
+The Validation Library in Java (Combinator Design Pattern)
+
+Course:         <<<REPLACE_ME: COURSE_NAME>>>
+Semester:       <<<REPLACE_ME: SEMESTER_AND_YEAR>>>
+Submission Date: <<<REPLACE_ME: SUBMISSION_DATE>>>
+
+================================================================================
+DEVELOPMENT TEAM INFORMATION
+================================================================================
+
+TEAM MANAGER:
+--------------------------------------------------------------------------------
+Name:           <<<REPLACE_ME: TEAM_MANAGER_FULL_NAME>>>
+
+================================================================================
+TEAM MEMBERS:
+--------------------------------------------------------------------------------
+
+TEAM MEMBER 1:
+Name:           <<<REPLACE_ME: TEAM_MEMBER_1_FULL_NAME>>>
+ID:             <<<REPLACE_ME: TEAM_MEMBER_1_ID>>>
+Mobile Number:  <<<REPLACE_ME: TEAM_MEMBER_1_MOBILE>>>
+Email Address:  <<<REPLACE_ME: TEAM_MEMBER_1_EMAIL>>>
+
+TEAM MEMBER 2:
+Name:           <<<REPLACE_ME: TEAM_MEMBER_2_FULL_NAME>>>
+ID:             <<<REPLACE_ME: TEAM_MEMBER_2_ID>>>
+Mobile Number:  <<<REPLACE_ME: TEAM_MEMBER_2_MOBILE>>>
+Email Address:  <<<REPLACE_ME: TEAM_MEMBER_2_EMAIL>>>
+
+(Duplicate the block above for every additional team member. A
+single-student submission is not accepted by default per the assignment
+guidelines.)
+
+================================================================================
+PROJECT VIDEO
+================================================================================
+
+<<<REPLACE_ME: YOUTUBE_VIDEO_LINK>>>
+
+The video (~60 seconds) demonstrates the project running and includes a
+voiced (not on-screen text) explanation of how the Combinator design
+pattern was implemented in il.ac.hit.validation.UserValidation.
+
+================================================================================
+SOURCE CODE REPOSITORY
+================================================================================
+
+https://github.com/elad-hayek/HIT-design-patterns-project
+
+Private GitHub repository containing the production source code, the
+IntelliJ project configuration, this documentation file, and .gitignore.
+The sources/ reference material and the personal test/ verification folder
+are intentionally excluded from version control.
+
+================================================================================
+DESIGN PATTERNS IMPLEMENTED
+================================================================================
+
+1. COMBINATOR PATTERN (il.ac.hit.validation.UserValidation)
+   --------------------------------------------------------------------------
+   UserValidation extends Function<User, ValidationResult>, so every
+   validation rule is itself a small, self-contained function. The
+   interface's default instance methods and(UserValidation),
+   or(UserValidation), and xor(UserValidation) each take another
+   UserValidation and return a brand new UserValidation that evaluates both
+   sides and applies AND / OR / XOR logic to the outcome. Because combining
+   two validations produces another UserValidation, the result can be fed
+   back into and/or/xor/all/none to build arbitrarily deep validation
+   expressions out of the eight primitive rules (emailEndsWithIL,
+   passwordLengthBiggerThan8, ageBiggerThan18, etc.) - the defining trait of
+   the Combinator pattern. The static varargs methods all(UserValidation...)
+   and none(UserValidation...) extend the same idea to whole collections of
+   rules.
+
+2. FACTORY METHOD PATTERN (il.ac.hit.validation.UserFactory)
+   --------------------------------------------------------------------------
+   UserFactory.createUser(type, ...) hides the concrete User subtype
+   (BasicUser, PremiumUser, or PlatinumUser) behind a single static method
+   that switches on the requested type string. Calling code depends only on
+   the User type returned, never on the concrete subclasses.
+
+3. TEMPLATE METHOD PATTERN (il.ac.hit.validation.UserUtils)
+   --------------------------------------------------------------------------
+   UserUtils.sort(User[], Comparator<User>) fixes the sorting algorithm
+   (delegating to Arrays.sort) while leaving the comparison step - the part
+   of the algorithm that varies - to the Comparator<User> supplied by the
+   caller, which is the accepted implementation of the Template Method
+   pattern for this assignment.
+
+================================================================================
+QUICK START GUIDE
+================================================================================
+
+Prerequisites:
+  - IntelliJ IDEA (Ultimate or Community Edition)
+  - JDK 24 (exactly this version - the project must not target an earlier
+    or later release)
+
+Opening the project:
+  1. Open IntelliJ IDEA.
+  2. File -> Open... and select the project root folder
+     (HIT-design-patterns-project).
+  3. IntelliJ reads the checked-in .idea project files and
+     HIT-design-patterns-project.iml, which already declare the "src"
+     folder as the source root, "out" as the build output folder, and
+     JDK 24 as the project SDK. If prompted, point the "24" SDK entry to a
+     local JDK 24 installation.
+
+Building from the command line (as used to verify this submission):
+  javac -d out -encoding UTF-8 --release 24 <all files under src/**/*.java>
+
+Packaging validation.jar:
+  jar --create --file out/artifacts/validation/validation.jar -C out il
+
+Running the sample program from the assignment specification:
+  javac -d test/out -cp out test/UserValidationV2Demo.java
+  java -cp "out;test/out" UserValidationV2Demo
+
+Note: the test/ folder holds personal verification code only. It is
+excluded from version control (.gitignore) and is not part of the graded
+production project.
+
+================================================================================
+COLLABORATIVE TOOLS SUMMARY & DEVELOPMENT PROCESS
+================================================================================
+
+<<<REPLACE_ME: COLLABORATION_TOOLS_SUMMARY>>>
+
+================================================================================
+PROJECT STRUCTURE
+================================================================================
+
+HIT-design-patterns-project/
++-- .gitignore
++-- HIT-design-patterns-project.iml
++-- firstname_lastname.txt          (this documentation file)
++-- .idea/
+|   +-- misc.xml                    (Project SDK = JDK 24)
+|   +-- modules.xml
+|   +-- vcs.xml
+|   +-- artifacts/
+|       +-- validation_jar.xml      (builds out/artifacts/validation/validation.jar)
++-- src/
+|   +-- il/ac/hit/validation/
+|       +-- User.java
+|       +-- BasicUser.java
+|       +-- PremiumUser.java
+|       +-- PlatinumUser.java
+|       +-- UserFactory.java
+|       +-- UserUtils.java
+|       +-- ValidationResult.java
+|       +-- Valid.java
+|       +-- Invalid.java
+|       +-- UserValidation.java
++-- out/                            (build output only - not committed)
++-- test/                           (personal verification only - not committed)
+
+================================================================================
+VALIDATION LIBRARY - COMPLETE CODE DOCUMENTATION
+================================================================================
+
+This section contains every production source file in the
+il.ac.hit.validation package, left-aligned and unbroken, for code review.
+
+================================================================================
+FILE: src/il/ac/hit/validation/User.java
+================================================================================
+
+package il.ac.hit.validation;
+
+/**
+ * Represents an application user that can be validated by the validation
+ * library. A {@code User} is described by a username, an email address, a
+ * password, and an age.
+ *
+ * <p>Concrete subtypes ({@link BasicUser}, {@link PremiumUser}, and
+ * {@link PlatinumUser}) are produced by {@link UserFactory} and only
+ * distinguish the membership tier of the user; they do not add any new
+ * state.</p>
+ */
+public class User {
+
+    // Unique name chosen by the user during registration
+    private String username;
+
+    // Contact email address used for account related communication
+    private String email;
+
+    // Secret credential used to authenticate the user
+    private String password;
+
+    // Age of the user, expressed in whole years
+    private int age;
+
+    /**
+     * Creates a new {@code User} with the supplied properties.
+     *
+     * <p>This is the primary constructor. It delegates every assignment to
+     * the corresponding setter so that validation is applied consistently,
+     * regardless of how the fields are populated later on.</p>
+     *
+     * @param username the username of the user
+     * @param email    the email address of the user
+     * @param password the password of the user
+     * @param age      the age of the user, in years
+     */
+    public User(String username, String email, String password, int age) {
+        setUsername(username);
+        setEmail(email);
+        setPassword(password);
+        setAge(age);
+    }
+
+    /**
+     * Returns the username of this user.
+     *
+     * @return the username
+     */
+    public String getUsername() {
+        return username;
+    }
+
+    /**
+     * Updates the username of this user.
+     *
+     * @param username the new username
+     * @throws IllegalArgumentException if {@code username} is {@code null} or empty
+     */
+    public final void setUsername(String username) {
+        if (username == null || username.isEmpty()) {
+            throw new IllegalArgumentException("username must not be null or empty");
+        }
+        this.username = username;
+    }
+
+    /**
+     * Returns the email address of this user.
+     *
+     * @return the email address
+     */
+    public String getEmail() {
+        return email;
+    }
+
+    /**
+     * Updates the email address of this user.
+     *
+     * @param email the new email address
+     * @throws IllegalArgumentException if {@code email} is {@code null} or empty
+     */
+    public final void setEmail(String email) {
+        if (email == null || email.isEmpty()) {
+            throw new IllegalArgumentException("email must not be null or empty");
+        }
+        this.email = email;
+    }
+
+    /**
+     * Returns the password of this user.
+     *
+     * @return the password
+     */
+    public String getPassword() {
+        return password;
+    }
+
+    /**
+     * Updates the password of this user.
+     *
+     * @param password the new password
+     * @throws IllegalArgumentException if {@code password} is {@code null} or empty
+     */
+    public final void setPassword(String password) {
+        if (password == null || password.isEmpty()) {
+            throw new IllegalArgumentException("password must not be null or empty");
+        }
+        this.password = password;
+    }
+
+    /**
+     * Returns the age of this user, in years.
+     *
+     * @return the age
+     */
+    public int getAge() {
+        return age;
+    }
+
+    /**
+     * Updates the age of this user.
+     *
+     * @param age the new age, in years
+     * @throws IllegalArgumentException if {@code age} is negative
+     */
+    public final void setAge(int age) {
+        if (age < 0) {
+            throw new IllegalArgumentException("age must not be negative");
+        }
+        this.age = age;
+    }
+
+    /**
+     * Returns a human-readable representation of this user. Useful for
+     * debugging and logging.
+     *
+     * @return a string describing this user
+     */
+    @Override
+    public String toString() {
+        return "User{username='" + username + "', email='" + email
+                + "', age=" + age + "}";
+    }
+}
+
+================================================================================
+FILE: src/il/ac/hit/validation/BasicUser.java
+================================================================================
+
+package il.ac.hit.validation;
+
+/**
+ * Represents a user registered under the "basic" membership tier.
+ *
+ * <p>Instances of this class are created by {@link UserFactory} when the
+ * factory method is invoked with the {@code "basic"} type string.</p>
+ */
+public class BasicUser extends User {
+
+    /**
+     * Creates a new {@code BasicUser} with the supplied properties.
+     *
+     * @param username the username of the user
+     * @param email    the email address of the user
+     * @param password the password of the user
+     * @param age      the age of the user, in years
+     */
+    public BasicUser(String username, String email, String password, int age) {
+        super(username, email, password, age);
+    }
+}
+
+================================================================================
+FILE: src/il/ac/hit/validation/PremiumUser.java
+================================================================================
+
+package il.ac.hit.validation;
+
+/**
+ * Represents a user registered under the "premium" membership tier.
+ *
+ * <p>Instances of this class are created by {@link UserFactory} when the
+ * factory method is invoked with the {@code "premium"} type string.</p>
+ */
+public class PremiumUser extends User {
+
+    /**
+     * Creates a new {@code PremiumUser} with the supplied properties.
+     *
+     * @param username the username of the user
+     * @param email    the email address of the user
+     * @param password the password of the user
+     * @param age      the age of the user, in years
+     */
+    public PremiumUser(String username, String email, String password, int age) {
+        super(username, email, password, age);
+    }
+}
+
+================================================================================
+FILE: src/il/ac/hit/validation/PlatinumUser.java
+================================================================================
+
+package il.ac.hit.validation;
+
+/**
+ * Represents a user registered under the "platinum" membership tier.
+ *
+ * <p>Instances of this class are created by {@link UserFactory} when the
+ * factory method is invoked with the {@code "platinum"} type string.</p>
+ */
+public class PlatinumUser extends User {
+
+    /**
+     * Creates a new {@code PlatinumUser} with the supplied properties.
+     *
+     * @param username the username of the user
+     * @param email    the email address of the user
+     * @param password the password of the user
+     * @param age      the age of the user, in years
+     */
+    public PlatinumUser(String username, String email, String password, int age) {
+        super(username, email, password, age);
+    }
+}
+
+================================================================================
+FILE: src/il/ac/hit/validation/UserFactory.java
+================================================================================
+
+package il.ac.hit.validation;
+
+/**
+ * Factory class responsible for creating {@link User} instances.
+ *
+ * <p>This class implements the <b>Factory Method</b> design pattern: callers
+ * ask for a user by supplying a type string, and this class decides which
+ * concrete {@link User} subclass gets instantiated. Callers never need to
+ * know about {@link BasicUser}, {@link PremiumUser}, or {@link PlatinumUser}
+ * directly.</p>
+ */
+public final class UserFactory {
+
+    // Type string that selects the "basic" membership tier
+    private static final String TYPE_BASIC = "basic";
+
+    // Type string that selects the "premium" membership tier
+    private static final String TYPE_PREMIUM = "premium";
+
+    // Type string that selects the "platinum" membership tier
+    private static final String TYPE_PLATINUM = "platinum";
+
+    /**
+     * Prevents instantiation. {@code UserFactory} exposes only static
+     * factory behavior.
+     */
+    private UserFactory() {
+    }
+
+    /**
+     * Creates a new {@link User} of the concrete subtype that matches the
+     * supplied membership type.
+     *
+     * @param type     one of {@code "basic"}, {@code "premium"}, or {@code "platinum"}
+     * @param username the username of the new user
+     * @param email    the email address of the new user
+     * @param password the password of the new user
+     * @param age      the age of the new user, in years
+     * @return a new {@link BasicUser}, {@link PremiumUser}, or {@link PlatinumUser}
+     * @throws IllegalArgumentException if {@code type} is {@code null} or unrecognized
+     */
+    public static User createUser(
+            String type, String username, String email, String password, int age) {
+        if (type == null) {
+            throw new IllegalArgumentException("type must not be null");
+        }
+
+        // Dispatch to the concrete subtype that matches the requested type
+        return switch (type.toLowerCase()) {
+            case TYPE_BASIC -> new BasicUser(username, email, password, age);
+            case TYPE_PREMIUM -> new PremiumUser(username, email, password, age);
+            case TYPE_PLATINUM -> new PlatinumUser(username, email, password, age);
+            default -> throw new IllegalArgumentException("Unknown user type: " + type);
+        };
+    }
+}
+
+================================================================================
+FILE: src/il/ac/hit/validation/UserUtils.java
+================================================================================
+
+package il.ac.hit.validation;
+
+import java.util.Arrays;
+import java.util.Comparator;
+
+/**
+ * Utility class offering sorting behavior for arrays of {@link User}.
+ *
+ * <p>This class implements the <b>Template Method</b> design pattern.
+ * The overall sorting algorithm (iterating and reordering the array) is
+ * fixed, while the comparison step that decides the relative order of two
+ * users is supplied by the caller through a {@link Comparator}, which acts
+ * as the variable step of the template.</p>
+ */
+public final class UserUtils {
+
+    /**
+     * Prevents instantiation. {@code UserUtils} exposes only static
+     * utility behavior.
+     */
+    private UserUtils() {
+    }
+
+    /**
+     * Sorts the supplied array of users in place, using {@code comparator}
+     * to determine the relative order of any two users.
+     *
+     * @param users      the array of users to sort
+     * @param comparator the comparison function used to order the users
+     * @throws IllegalArgumentException if {@code users} or {@code comparator} is {@code null}
+     */
+    public static void sort(User[] users, Comparator<User> comparator) {
+        if (users == null) {
+            throw new IllegalArgumentException("users must not be null");
+        }
+        if (comparator == null) {
+            throw new IllegalArgumentException("comparator must not be null");
+        }
+
+        // Delegate the actual reordering to the comparator supplied by the caller
+        Arrays.sort(users, comparator);
+    }
+}
+
+================================================================================
+FILE: src/il/ac/hit/validation/ValidationResult.java
+================================================================================
+
+package il.ac.hit.validation;
+
+import java.util.Optional;
+
+/**
+ * Describes the outcome of validating a {@link User}.
+ *
+ * <p>A {@code ValidationResult} either represents success, in which case
+ * {@link #isValid()} returns {@code true} and {@link #getReason()} returns
+ * an empty {@link Optional}, or it represents failure, in which case
+ * {@link #isValid()} returns {@code false} and {@link #getReason()} returns
+ * an {@link Optional} describing why the validation failed.</p>
+ */
+public interface ValidationResult {
+
+    /**
+     * Indicates whether the validation succeeded.
+     *
+     * @return {@code true} if the validation succeeded, {@code false} otherwise
+     */
+    boolean isValid();
+
+    /**
+     * Returns the reason the validation failed.
+     *
+     * @return an {@link Optional} describing the failure, or an empty
+     * {@link Optional} when the validation succeeded
+     */
+    Optional<String> getReason();
+}
+
+================================================================================
+FILE: src/il/ac/hit/validation/Valid.java
+================================================================================
+
+package il.ac.hit.validation;
+
+import java.util.Optional;
+
+/**
+ * A {@link ValidationResult} that represents a successful validation.
+ */
+public final class Valid implements ValidationResult {
+
+    /**
+     * Creates a new {@code Valid} result.
+     */
+    public Valid() {
+    }
+
+    /**
+     * Always returns {@code true}, since this result represents success.
+     *
+     * @return {@code true}
+     */
+    @Override
+    public boolean isValid() {
+        return true;
+    }
+
+    /**
+     * Always returns an empty {@link Optional}, since a successful
+     * validation has no failure reason.
+     *
+     * @return an empty {@link Optional}
+     */
+    @Override
+    public Optional<String> getReason() {
+        return Optional.empty();
+    }
+
+    /**
+     * Returns a human-readable representation of this result.
+     *
+     * @return a string describing this result
+     */
+    @Override
+    public String toString() {
+        return "Valid{}";
+    }
+}
+
+================================================================================
+FILE: src/il/ac/hit/validation/Invalid.java
+================================================================================
+
+package il.ac.hit.validation;
+
+import java.util.Optional;
+
+/**
+ * A {@link ValidationResult} that represents a failed validation, together
+ * with a human-readable reason describing what went wrong.
+ */
+public final class Invalid implements ValidationResult {
+
+    // Explanation of why the validation failed
+    private final String reason;
+
+    /**
+     * Creates a new {@code Invalid} result carrying the supplied reason.
+     *
+     * @param reason a human-readable description of the failure
+     * @throws IllegalArgumentException if {@code reason} is {@code null} or empty
+     */
+    public Invalid(String reason) {
+        if (reason == null || reason.isEmpty()) {
+            throw new IllegalArgumentException("reason must not be null or empty");
+        }
+        this.reason = reason;
+    }
+
+    /**
+     * Always returns {@code false}, since this result represents failure.
+     *
+     * @return {@code false}
+     */
+    @Override
+    public boolean isValid() {
+        return false;
+    }
+
+    /**
+     * Returns the reason this validation failed.
+     *
+     * @return an {@link Optional} containing the failure reason
+     */
+    @Override
+    public Optional<String> getReason() {
+        return Optional.of(reason);
+    }
+
+    /**
+     * Returns a human-readable representation of this result.
+     *
+     * @return a string describing this result
+     */
+    @Override
+    public String toString() {
+        return "Invalid{reason='" + reason + "'}";
+    }
+}
+
+================================================================================
+FILE: src/il/ac/hit/validation/UserValidation.java
+================================================================================
+
+package il.ac.hit.validation;
+
+import java.util.Objects;
+import java.util.function.Function;
+
+/**
+ * Represents a single validation rule that can be applied to a {@link User}.
+ *
+ * <p>This interface is the heart of the <b>Combinator</b> design pattern
+ * implemented by this library. Every {@code UserValidation} is a function
+ * from {@link User} to {@link ValidationResult}. Small validations, created
+ * through the static factory methods below, can be combined into bigger
+ * validations using {@link #and(UserValidation)}, {@link #or(UserValidation)},
+ * {@link #xor(UserValidation)}, {@link #all(UserValidation...)}, and
+ * {@link #none(UserValidation...)}. Because combining validations yields
+ * another {@code UserValidation}, combinations can themselves be combined
+ * further, without limit.</p>
+ */
+public interface UserValidation extends Function<User, ValidationResult> {
+
+    /**
+     * Combines this validation with {@code other}, producing a validation
+     * that succeeds only when both this validation and {@code other} succeed.
+     *
+     * @param other the other validation to combine with this one
+     * @return a validation representing the logical AND of this and {@code other}
+     * @throws NullPointerException if {@code other} is {@code null}
+     */
+    default UserValidation and(UserValidation other) {
+        Objects.requireNonNull(other, "other must not be null");
+
+        // Both validations must pass for the combined validation to pass
+        return user -> {
+            ValidationResult thisResult = this.apply(user);
+            if (!thisResult.isValid()) {
+                return thisResult;
+            }
+            return other.apply(user);
+        };
+    }
+
+    /**
+     * Combines this validation with {@code other}, producing a validation
+     * that succeeds when at least one of this validation and {@code other}
+     * succeeds.
+     *
+     * @param other the other validation to combine with this one
+     * @return a validation representing the logical OR of this and {@code other}
+     * @throws NullPointerException if {@code other} is {@code null}
+     */
+    default UserValidation or(UserValidation other) {
+        Objects.requireNonNull(other, "other must not be null");
+
+        // At least one of the two validations must pass
+        return user -> {
+            ValidationResult thisResult = this.apply(user);
+            if (thisResult.isValid()) {
+                return thisResult;
+            }
+
+            ValidationResult otherResult = other.apply(user);
+            if (otherResult.isValid()) {
+                return otherResult;
+            }
+
+            return new Invalid("Neither condition was fulfilled: "
+                    + thisResult.getReason().orElse("")
+                    + "; " + otherResult.getReason().orElse(""));
+        };
+    }
+
+    /**
+     * Combines this validation with {@code other}, producing a validation
+     * that succeeds only when exactly one of this validation and
+     * {@code other} succeeds.
+     *
+     * @param other the other validation to combine with this one
+     * @return a validation representing the logical XOR of this and {@code other}
+     * @throws NullPointerException if {@code other} is {@code null}
+     */
+    default UserValidation xor(UserValidation other) {
+        Objects.requireNonNull(other, "other must not be null");
+
+        // Exactly one of the two validations must pass, not both and not neither
+        return user -> {
+            ValidationResult thisResult = this.apply(user);
+            ValidationResult otherResult = other.apply(user);
+
+            if (thisResult.isValid() ^ otherResult.isValid()) {
+                return new Valid();
+            }
+            return new Invalid("Exactly one of the two conditions must be fulfilled");
+        };
+    }
+
+    /**
+     * Combines the supplied validations into a single validation that
+     * succeeds only when every one of them succeeds.
+     *
+     * @param validations the validations to combine
+     * @return a validation that succeeds when all supplied validations succeed
+     * @throws NullPointerException if {@code validations} is {@code null}
+     */
+    static UserValidation all(UserValidation... validations) {
+        Objects.requireNonNull(validations, "validations must not be null");
+
+        // Fail fast on the first validation that does not pass
+        return user -> {
+            for (UserValidation validation : validations) {
+                ValidationResult result = validation.apply(user);
+                if (!result.isValid()) {
+                    return result;
+                }
+            }
+            return new Valid();
+        };
+    }
+
+    /**
+     * Combines the supplied validations into a single validation that
+     * succeeds only when none of them succeed.
+     *
+     * @param validations the validations to combine
+     * @return a validation that succeeds when no supplied validation succeeds
+     * @throws NullPointerException if {@code validations} is {@code null}
+     */
+    static UserValidation none(UserValidation... validations) {
+        Objects.requireNonNull(validations, "validations must not be null");
+
+        // Fail as soon as any validation unexpectedly passes
+        return user -> {
+            for (UserValidation validation : validations) {
+                ValidationResult result = validation.apply(user);
+                if (result.isValid()) {
+                    return new Invalid("At least one of the supplied conditions was fulfilled");
+                }
+            }
+            return new Valid();
+        };
+    }
+
+    /**
+     * Creates a validation verifying that the user's email address ends
+     * with {@code "il"}.
+     *
+     * @return the validation rule
+     */
+    static UserValidation emailEndsWithIL() {
+        return user -> user.getEmail().endsWith("il")
+                ? new Valid()
+                : new Invalid("Email does not end with \"il\"");
+    }
+
+    /**
+     * Creates a validation verifying that the user's email address is
+     * longer than 10 characters.
+     *
+     * @return the validation rule
+     */
+    static UserValidation emailLengthBiggerThan10() {
+        return user -> user.getEmail().length() > 10
+                ? new Valid()
+                : new Invalid("Email length is not bigger than 10");
+    }
+
+    /**
+     * Creates a validation verifying that the user's password is longer
+     * than 8 characters.
+     *
+     * @return the validation rule
+     */
+    static UserValidation passwordLengthBiggerThan8() {
+        return user -> user.getPassword().length() > 8
+                ? new Valid()
+                : new Invalid("Password length is not bigger than 8");
+    }
+
+    /**
+     * Creates a validation verifying that the user's password contains
+     * letters and digits only.
+     *
+     * @return the validation rule
+     */
+    static UserValidation passwordIncludesLettersNumbersOnly() {
+        return user -> user.getPassword().matches("^[a-zA-Z0-9]+$")
+                ? new Valid()
+                : new Invalid("Password includes characters other than letters and numbers");
+    }
+
+    /**
+     * Creates a validation verifying that the user's password includes the
+     * {@code $} character.
+     *
+     * @return the validation rule
+     */
+    static UserValidation passwordIncludesDollarSign() {
+        return user -> user.getPassword().contains("$")
+                ? new Valid()
+                : new Invalid("Password does not include the '$' character");
+    }
+
+    /**
+     * Creates a validation verifying that the user's password is different
+     * from the user's username.
+     *
+     * @return the validation rule
+     */
+    static UserValidation passwordIsDifferentFromUsername() {
+        return user -> !user.getPassword().equals(user.getUsername())
+                ? new Valid()
+                : new Invalid("Password must be different from username");
+    }
+
+    /**
+     * Creates a validation verifying that the user's age is bigger than 18.
+     *
+     * @return the validation rule
+     */
+    static UserValidation ageBiggerThan18() {
+        return user -> user.getAge() > 18
+                ? new Valid()
+                : new Invalid("Age is not bigger than 18");
+    }
+
+    /**
+     * Creates a validation verifying that the user's username is longer
+     * than 8 characters.
+     *
+     * @return the validation rule
+     */
+    static UserValidation usernameLengthBiggerThan8() {
+        return user -> user.getUsername().length() > 8
+                ? new Valid()
+                : new Invalid("Username length is not bigger than 8");
+    }
+}
+
+================================================================================
+END OF VALIDATION LIBRARY CODE DOCUMENTATION
+================================================================================
