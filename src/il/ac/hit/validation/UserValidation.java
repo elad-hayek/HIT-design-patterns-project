@@ -146,9 +146,12 @@ public interface UserValidation extends Function<User, ValidationResult> {
      * @return the validation rule
      */
     static UserValidation emailEndsWithIL() {
-        return user -> user.getEmail().endsWith("il")
-                ? new Valid()
-                : new Invalid("Email does not end with \"il\"");
+        return user -> {
+            Objects.requireNonNull(user, "user must not be null");
+            return user.getEmail().endsWith("il")
+                    ? new Valid()
+                    : new Invalid("Email does not end with \"il\"");
+        };
     }
 
     /**
@@ -158,9 +161,12 @@ public interface UserValidation extends Function<User, ValidationResult> {
      * @return the validation rule
      */
     static UserValidation emailLengthBiggerThan10() {
-        return user -> user.getEmail().length() > 10
-                ? new Valid()
-                : new Invalid("Email length is not bigger than 10");
+        return user -> {
+            Objects.requireNonNull(user, "user must not be null");
+            return user.getEmail().length() > 10
+                    ? new Valid()
+                    : new Invalid("Email length is not bigger than 10");
+        };
     }
 
     /**
@@ -170,9 +176,12 @@ public interface UserValidation extends Function<User, ValidationResult> {
      * @return the validation rule
      */
     static UserValidation passwordLengthBiggerThan8() {
-        return user -> user.getPassword().length() > 8
-                ? new Valid()
-                : new Invalid("Password length is not bigger than 8");
+        return user -> {
+            Objects.requireNonNull(user, "user must not be null");
+            return user.getPassword().length() > 8
+                    ? new Valid()
+                    : new Invalid("Password length is not bigger than 8");
+        };
     }
 
     /**
@@ -182,9 +191,12 @@ public interface UserValidation extends Function<User, ValidationResult> {
      * @return the validation rule
      */
     static UserValidation passwordIncludesLettersNumbersOnly() {
-        return user -> user.getPassword().matches("^[a-zA-Z0-9]+$")
-                ? new Valid()
-                : new Invalid("Password includes characters other than letters and numbers");
+        return user -> {
+            Objects.requireNonNull(user, "user must not be null");
+            return user.getPassword().matches("^[a-zA-Z0-9]+$")
+                    ? new Valid()
+                    : new Invalid("Password includes characters other than letters and numbers");
+        };
     }
 
     /**
@@ -194,9 +206,12 @@ public interface UserValidation extends Function<User, ValidationResult> {
      * @return the validation rule
      */
     static UserValidation passwordIncludesDollarSign() {
-        return user -> user.getPassword().contains("$")
-                ? new Valid()
-                : new Invalid("Password does not include the '$' character");
+        return user -> {
+            Objects.requireNonNull(user, "user must not be null");
+            return user.getPassword().contains("$")
+                    ? new Valid()
+                    : new Invalid("Password does not include the '$' character");
+        };
     }
 
     /**
@@ -206,9 +221,12 @@ public interface UserValidation extends Function<User, ValidationResult> {
      * @return the validation rule
      */
     static UserValidation passwordIsDifferentFromUsername() {
-        return user -> !user.getPassword().equals(user.getUsername())
-                ? new Valid()
-                : new Invalid("Password must be different from username");
+        return user -> {
+            Objects.requireNonNull(user, "user must not be null");
+            return !user.getPassword().equals(user.getUsername())
+                    ? new Valid()
+                    : new Invalid("Password must be different from username");
+        };
     }
 
     /**
@@ -217,9 +235,12 @@ public interface UserValidation extends Function<User, ValidationResult> {
      * @return the validation rule
      */
     static UserValidation ageBiggerThan18() {
-        return user -> user.getAge() > 18
-                ? new Valid()
-                : new Invalid("Age is not bigger than 18");
+        return user -> {
+            Objects.requireNonNull(user, "user must not be null");
+            return user.getAge() > 18
+                    ? new Valid()
+                    : new Invalid("Age is not bigger than 18");
+        };
     }
 
     /**
@@ -229,8 +250,11 @@ public interface UserValidation extends Function<User, ValidationResult> {
      * @return the validation rule
      */
     static UserValidation usernameLengthBiggerThan8() {
-        return user -> user.getUsername().length() > 8
-                ? new Valid()
-                : new Invalid("Username length is not bigger than 8");
+        return user -> {
+            Objects.requireNonNull(user, "user must not be null");
+            return user.getUsername().length() > 8
+                    ? new Valid()
+                    : new Invalid("Username length is not bigger than 8");
+        };
     }
 }

@@ -19,4 +19,16 @@ public class PremiumUser extends User {
     public PremiumUser(String username, String email, String password, int age) {
         super(username, email, password, age);
     }
+
+    /**
+     * Returns a human-readable representation of this user, including the
+     * membership tier.
+     *
+     * @return a string describing this user
+     */
+    @Override
+    public String toString() {
+        return "PremiumUser{username='" + getUsername() + "', email='" + getEmail()
+                + "', age=" + getAge() + "}";
+    }
 }
